@@ -1,37 +1,40 @@
 package com.example.yunan.tripscanner;
 
-import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class NewsFeedActivity extends BaseNaviActivity {
+public class ReivewActivity extends BaseNaviActivity {
 
-    /*public NewsFeedActivity(){
-        super();
-
-    }*/
+    public ReivewActivity(){
+        //super();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_news_feed);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("NewsFeedActivity");
+        toolbar.setTitle("Review Activity");
+        //setSupportActionBar(toolbar);
     }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         super.onCreateOptionsMenu(menu);
         return true;
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

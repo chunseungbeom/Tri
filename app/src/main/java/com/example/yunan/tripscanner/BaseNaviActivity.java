@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -97,38 +99,44 @@ public class BaseNaviActivity extends AppCompatActivity implements NavigationVie
         }
         mCurrentId = id;
 
+
+
         if (id == R.id.nav_camera) {
 
-
         } else if (id == R.id.nav_newsfeed) {
-            Intent intent= new Intent(this, NewsFeedActivity.class) ;
+            selectNewsFeed();
+
+        } else if (id == R.id.nav_search) {
+            Intent intent = new Intent(this, SearchActivity.class) ;
+            startActivity(intent) ;
+        } else if (id == R.id.nav_register) {
+            Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_slideshow) {
-            //Intent testIntent = new Intent(this, NewsFeedActivity.class) ;
-            //startActivity(testIntent) ;
-        } else if (id == R.id.nav_manage) {
-
-
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
 
-        /* fragment 사용시 코드
+
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void selectNewsFeed(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("NewsFeed");
+
         Fragment fragment = null;
-        fragment = new BlankFragment();
+        fragment = new NewsFeedFragment();
         if(fragment != null){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_blank, fragment);
             ft.commit();
         }
-*/
-
-
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
