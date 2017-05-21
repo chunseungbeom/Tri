@@ -31,6 +31,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -209,12 +211,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 5;
     }
 
@@ -322,13 +322,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
+
+
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            //attempt authentication against a network service.
+            String response = "";
+            User user = new User();
+            user.getUser().put("email",mEmail);
+            user.getUser().put("password", mPassword);
 
-            POST("http://192.168.0.21:3000/api/v1/users/sign_in");
+            CommunicationManager communication = new CommunicationManager();
+            response = communication.POST("http://192.168.0.30:3000/api/v1/users/sign_in", user);
 
-            // TODO: register the new account here.
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                user = mapper.readValue(response, User.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String email = (String)user.getUser().get("email");
+            String token = (String)user.getUser().get("authentication_token");
+            ProfileManager.getInstance().saveUserEmail(email);
+            ProfileManager.getInstance().saveUserToken(token);
+            /*SharedPreferences pref = getSharedPreferences("Prefer",0);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("email", email);
+            editor.putString("authentication_token", token);
+            editor.commit();*/
+
             return true;
         }
 

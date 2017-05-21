@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+        android:name="com.example.yunan.tripscanner"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -44,7 +45,21 @@
             android:label="@string/title_activity_register" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCUAAQWmjTDWyVMCQeXcezmmaEhWa0YfZE" />
+
+        <activity
+            android:name=".ScrollingSearchActivity"
+            android:label="@string/title_activity_scrolling_search"
+            android:parentActivityName=".BaseNaviActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.yunan.tripscanner.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
