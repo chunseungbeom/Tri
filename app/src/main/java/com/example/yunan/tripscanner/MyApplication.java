@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 /**
- * Created by yunan on 2017-05-22.
+ * Created by yunan on 2017-05-21.
  */
 
 public class MyApplication extends Application{
@@ -13,11 +13,11 @@ public class MyApplication extends Application{
     @Override
     public void onCreate(){
         super.onCreate();
-        MyApplication.context = getApplicationContext();
+        context = getApplicationContext();
     }
 
     public static Context getAppContext(){
-        return MyApplication.context;
+        return context;
     }
 
 }

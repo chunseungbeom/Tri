@@ -333,7 +333,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             user.getUser().put("password", mPassword);
 
             CommunicationManager communication = new CommunicationManager();
-            response = communication.POST("http://192.168.0.30:3000/api/v1/users/sign_in", user);
+            response = communication.POST("http://192.168.0.2:3000/api/v1/users/sign_in", user);
 
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -346,12 +346,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String token = (String)user.getUser().get("authentication_token");
             ProfileManager.getInstance().saveUserEmail(email);
             ProfileManager.getInstance().saveUserToken(token);
-            /*SharedPreferences pref = getSharedPreferences("Prefer",0);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("email", email);
-            editor.putString("authentication_token", token);
-            editor.commit();*/
 
+            /*communication.GET("http://192.168.0.2:3000/api/v1/users/me");
+            User user2 = new User();
+            user2.getUser().put("email",mEmail);
+            user2.getUser().put("password", mPassword);
+            communication.DELETE("http://192.168.0.2:3000/api/v1/users/sign_out", null);
+            communication.GET("http://192.168.0.2:3000/api/v1/users/me");*/
             return true;
         }
 

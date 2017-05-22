@@ -17,8 +17,8 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class CommunicationManager {
 
-    public String DELETE(String url){
-
+    public String DELETE(String url, Object obj){
+        String json = "";
         String result = "";
 
         try {
@@ -29,8 +29,7 @@ public class CommunicationManager {
             // 요청 방식 선택
             httpCon.setRequestMethod("DELETE");
 
-            // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
-            httpCon.setDoOutput(true);
+
             // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
             httpCon.setDoInput(true);
 
@@ -41,11 +40,30 @@ public class CommunicationManager {
             httpCon.setRequestProperty("Content-type", "application/json");
 
             //TODO: Test Login Session
-            String email = ProfileManager.getInstance().getUserEmail();
-            String token = ProfileManager.getInstance().getUserToken();
-            httpCon.setRequestProperty("X-User-Email",email);
-            httpCon.setRequestProperty("X-User-Token",token);
+            if(!(obj instanceof User)){
+                String email = ProfileManager.getInstance().getUserEmail();
+                String token = ProfileManager.getInstance().getUserToken();
+                httpCon.setRequestProperty("X-User-Email",email);
+                httpCon.setRequestProperty("X-User-Token",token);
+            }
 
+
+            if(!(obj == null)){
+                // ** The Way to convert Object to JSON string using Jackson Lib
+                ObjectMapper mapper = new ObjectMapper();
+                json = mapper.writeValueAsString(obj);
+
+
+                httpCon.setDoOutput(true);
+
+                //send http message
+                OutputStream os = httpCon.getOutputStream();
+                os.write(json.getBytes("euc-kr"));
+                os.flush();
+                os.close();
+            }
+
+            //httpCon.connect();
 
             // receive response as inputStream
             InputStream is = null;
@@ -83,15 +101,9 @@ public class CommunicationManager {
             HttpURLConnection httpCon = (HttpURLConnection)urlCon.openConnection();
 
 
-            // ** The Way to convert Object to JSON string using Jackson Lib
-            ObjectMapper mapper = new ObjectMapper();
-            //json = mapper.writeValueAsString(obj);
-
             // 요청 방식 선택 (GET, POST)
             httpCon.setRequestMethod("GET");
 
-            // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
-            httpCon.setDoOutput(true);
             // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
             httpCon.setDoInput(true);
 
