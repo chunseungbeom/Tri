@@ -320,6 +320,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+            //저장된 토큰 초기화(로그인 전 로그아웃 처리)
+            ProfileManager.getInstance().saveUserEmail("");
+            ProfileManager.getInstance().saveUserToken("");
         }
 
 
@@ -331,9 +334,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             User user = new User();
             user.getUser().put("email",mEmail);
             user.getUser().put("password", mPassword);
+            //user.getUser().put("gender", "male");
 
             CommunicationManager communication = new CommunicationManager();
-            response = communication.POST("http://192.168.0.2:3000/api/v1/users/sign_in", user);
+            response = communication.POST("http://huy.dlinkddns.com/api/v1/users/sign_in", user);
+
+            if(response.contains("error")){
+                return false;
+            }
 
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -342,17 +350,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e.printStackTrace();
             }
 
+
+
             String email = (String)user.getUser().get("email");
             String token = (String)user.getUser().get("authentication_token");
             ProfileManager.getInstance().saveUserEmail(email);
             ProfileManager.getInstance().saveUserToken(token);
 
-            /*communication.GET("http://192.168.0.2:3000/api/v1/users/me");
-            User user2 = new User();
-            user2.getUser().put("email",mEmail);
-            user2.getUser().put("password", mPassword);
-            communication.DELETE("http://192.168.0.2:3000/api/v1/users/sign_out", null);
-            communication.GET("http://192.168.0.2:3000/api/v1/users/me");*/
+
             return true;
         }
 
@@ -362,6 +367,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -375,102 +382,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
 
-        protected String POST(String url){
-
-            String result = "";
-            try {
-                URL urlCon = new URL(url);
-                HttpURLConnection httpCon = (HttpURLConnection)urlCon.openConnection();
-
-                String json = "{\n" +
-                        "  \"user\": {\n" +
-                        "    \"email\": \""+mEmail+"\",\n" +
-                        "    \"password\": \""+mPassword+"\" \n" +
-                        "  }\n" +
-                        "}";
-
-
-                /*
-                // build jsonObject
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("email", mEmail);
-                jsonObject.accumulate("password", mPassword);
-                jsonObject.accumulate("password_confirmation", mPassword);
-
-                json = jsonObject.toString();*/
-
-                // ** Alternative way to convert Person object to JSON string usin Jackson Lib
-                // ObjectMapper mapper = new ObjectMapper();
-                // json = mapper.writeValueAsString(person);
-
-                // 요청 방식 선택 (GET, POST)
-                httpCon.setRequestMethod("POST");
-
-                // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
-                httpCon.setDoOutput(true);
-                // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
-                httpCon.setDoInput(true);
-
-                // Set some headers to inform server about the type of the content
-                // 서버 Response 데이터를 json 타입으로 요청
-                httpCon.setRequestProperty("Accept", "application/json");
-                // 타입설정(application/json) 형식으로 전송 (Request Body 전달시 application/json로 서버에 전달.
-                httpCon.setRequestProperty("Content-type", "application/json");
-
-                //send http message
-                OutputStream os = httpCon.getOutputStream();
-                os.write(json.getBytes("euc-kr"));
-                os.flush();
-                os.close();
-
-                // receive response as inputStream
-                InputStream is = null;
-                try {
-                    is = httpCon.getInputStream();
-                    // convert inputstream to string
-                    if(is != null)
-                        result = convertInputStreamToString(is);
-                    else
-                        result = "Did not work!";
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally {
-                    httpCon.disconnect();
-                }
-
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            catch (Exception e) {
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-
-            return result;
-
-        }
-        private String convertInputStreamToString(InputStream is) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder sb = new StringBuilder();
-
-            String line = null;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append('\n');
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return sb.toString();
-        }
     }
 }
 

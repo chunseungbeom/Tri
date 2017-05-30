@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -41,6 +42,8 @@ public class NewsFeedFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment NewsFeedFragment.
      */
+
+
     // TODO: Rename and change types and number of parameters
     public static NewsFeedFragment newInstance(String param1, String param2) {
         NewsFeedFragment fragment = new NewsFeedFragment();
@@ -58,6 +61,7 @@ public class NewsFeedFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override

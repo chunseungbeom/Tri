@@ -26,11 +26,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SearchActivity"
@@ -46,11 +42,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCUAAQWmjTDWyVMCQeXcezmmaEhWa0YfZE" />
-
         <activity
             android:name=".ScrollingSearchActivity"
             android:label="@string/title_activity_scrolling_search"
@@ -59,6 +50,22 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.yunan.tripscanner.MainActivity" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCR1_QfP6YWOPi2K63hb0i0CKxzrIHCG2Y" />
+
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 
