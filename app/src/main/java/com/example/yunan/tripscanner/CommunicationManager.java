@@ -299,9 +299,9 @@ public class CommunicationManager {
         return result;
     }
 
-    public String QUERY(String url, String address, String city){
-        String queryString = url + "?" + "address=" + address + "&" + "city=" + city;
-        //ex : http://localhost:3000/api/v1/trips   ? address=수지구 &    city=수지구
+    public String QUERY(String url, String address, String checkIn, String checkOut){
+        String queryString = url + "?" + "address=" + address + "&" + "checkIn=" + checkIn + "&" + "checkOut=" + checkOut;
+        //ex : http://localhost:3000/api/v1/trips   ? address=수지구 &    check_in=2017-05-09  & check_out=2017-05-15
         return GET(queryString);
     }
 

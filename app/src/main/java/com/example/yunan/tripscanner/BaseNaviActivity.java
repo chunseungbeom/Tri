@@ -107,7 +107,7 @@ public class BaseNaviActivity extends AppCompatActivity implements NavigationVie
             selectNewsFeed();
 
         } else if (id == R.id.nav_search) {
-            Intent intent = new Intent(this, SearchActivity.class) ;
+            Intent intent = new Intent(this, ScrollingSearchActivity.class) ;
             startActivity(intent) ;
         } else if (id == R.id.nav_register) {
             Intent intent = new Intent(this, RegisterActivity.class);

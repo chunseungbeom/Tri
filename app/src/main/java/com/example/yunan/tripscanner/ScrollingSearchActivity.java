@@ -1,6 +1,9 @@
 package com.example.yunan.tripscanner;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -34,6 +37,7 @@ public class ScrollingSearchActivity extends AppCompatActivity {
     private FloatingActionButton mFabBottom;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private SearchTask mSearchTask;
 
 
     @Override
@@ -121,23 +125,10 @@ public class ScrollingSearchActivity extends AppCompatActivity {
                 if(mPlace == null || mStartString == null || mEndString == null){
                     return;
                 }
-                //TODO: 검색 쿼리 날려서 리스트뷰에 출력하기 (Material Card or ListView 이용)
-                CommunicationManager communication = new CommunicationManager();
-                String address = mPlace.getAddress().toString();
+                //검색 쿼리 날려서 리스트뷰에 출력하기 (Material Card 이용)
                 String city = mPlace.getName().toString();
-                String searchResult = communication.QUERY("http://huy.dlinkddns.com/api/v1/trips", address, city);
-
-                Trip trip = new Trip();
-                ObjectMapper mapper = new ObjectMapper();
-                try {
-                    trip = mapper.readValue(searchResult, Trip.class);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), trip);
-                mRecyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                mSearchTask = new SearchTask(city, mStartString, mEndString);
+                mSearchTask.execute((Void) null);
 
             }
         });
@@ -156,10 +147,22 @@ public class ScrollingSearchActivity extends AppCompatActivity {
         //getLayoutInflater().inflate(R.layout.content_scrolling_search, null, false);
         mLinearLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         mRecyclerView = (RecyclerView) resultView.findViewById(R.id.recycler_view);
+
+        //RecyclerView divider height control // item(cardview)에 margin 넣으면 필요없음.
+        /*mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            private final int dividerHeight = 0;
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.top = dividerHeight;
+            }
+        });*/
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
 
 
 
@@ -193,47 +196,53 @@ public class ScrollingSearchActivity extends AppCompatActivity {
     }
 
 
-
-    /*protected void makeList(){
-        *//** JSON -> LIST 가공 메소드 **//*
-        public void makeList(String myJSON) {
-            try {
-                JSONObject jsonObj = new JSONObject(myJSON);
-                posts = jsonObj.getJSONArray(TAG_RESULTS);
-                for(int i=0; i<posts.length(); i++) {
-                    //JSON에서 각각의 요소를 뽑아옴
-                    JSONObject c = posts.getJSONObject(i);
-                    String title = c.getString(TAG_TITLE);
-                    String writer = c.getString(TAG_WRITER);
-                    String date = c.getString(TAG_DATE);
-                    String content = c.getString(TAG_CONTENT);
-                    if(content.length() > 50 ) {
-                        content = content.substring(0,50) + "..."; //50자 자르고 ... 붙이기
-                    }
-                    if(title.length() > 16 ) {
-                        title = title.substring(0,16) + "..."; //18자 자르고 ... 붙이기
-                    }
-
-                    //HashMap에 붙이기
-                    HashMap<String,String> posts = new HashMap<String,String>();
-                    posts.put(TAG_TITLE,title);
-                    posts.put(TAG_WRITER,writer);
-                    posts.put(TAG_DATE,date);
-                    posts.put(TAG_CONTENT, content);
-
-                    //ArrayList에 HashMap 붙이기
-                    noticeList.add(posts);
-                }
-                //카드 리스트뷰 어댑터에 연결
-                NoticeAdapter adapter = new NoticeAdapter(getActivity(),noticeList);
-                Log.e("onCreate[noticeList]", "" + noticeList.size());
-                rv.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-            }catch(JSONException e) {
-                e.printStackTrace();
-            }
+    public class SearchTask extends AsyncTask<Void, Void, Trip> {
+        private String mAddress;
+        private String mCheckIn;
+        private String mCheckOut;
+        SearchTask(String address, String checkIn, String checkOut) {
+            mAddress = address;
+            mCheckIn = checkIn;
+            mCheckOut = checkOut;
         }
 
-    }*/
+
+
+        @Override
+        protected Trip doInBackground(Void... params) {
+            //attempt authentication against a network service.
+
+            CommunicationManager communication = new CommunicationManager();
+            String searchResult = communication.QUERY("http://huy.dlinkddns.com/api/v1/trips", mAddress, mCheckIn, mCheckOut);
+
+            Trip trip = new Trip();
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                trip = mapper.readValue(searchResult, Trip.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+            return trip;
+        }
+
+        @Override
+        protected void onPostExecute(final Trip trip) {
+            mSearchTask = null;
+
+
+            RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), trip);
+            mRecyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSearchTask = null;
+        }
+
+    }
 }

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,26 +20,34 @@ import java.util.HashMap;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
     Context context;
-    Object obj; //ArrayList<HashMap<String,String>> noticeList; //공지사항 정보 담겨있음
     Trip trip;
 
     public RecyclerAdapter(Context context, Object obj) {
         this.context = context;
-        this.obj = obj;
+        if(obj instanceof Trip){
+            trip = (Trip)obj;
+        }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //recycler view에 반복될 아이템 레이아웃 연결
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view,null);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
         return new ViewHolder(v);
     }
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     /** 정보 및 이벤트 처리는 이 메소드에서 구현 **/
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        trip = (Trip) obj;
-        trip.getTrip().get("");
+
+        HashMap<String,Object> temp;
+
+        temp = (HashMap<String,Object>)trip.getTrips().get(position);
+        HashMap <String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
+        holder.addressView.setText(temp.get("address").toString());
+        holder.ownerNameView.setText(ownerTemp.get("name").toString());
+        holder.checkInView.setText(temp.get("check_in").toString());
+        holder.checkOutView.setText(temp.get("check_out").toString());
 
         /*HashMap<String,String> noticeItem = noticeList.get(position);
         holder.tv_writer.setText(noticeItem.get("writer")); //작성자
@@ -49,15 +59,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return this.trip.getTrip().size();
+        return this.trip.getTrips().size();
     }
     /** item layout 불러오기 **/
     public class ViewHolder extends RecyclerView.ViewHolder {
-        /*TextView tv_title;
-        TextView tv_date;
-        TextView tv_content;
-        TextView tv_writer;*/
+
         CardView cardView;
+        TextView addressView;
+        //ImageView imageView;
+        TextView ownerNameView;
+        TextView checkInView;
+        TextView checkOutView;
 
         public ViewHolder(View v) {
             super(v);
@@ -66,6 +78,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             tv_content = (TextView) v.findViewById(R.id.tv_content);
             tv_writer = (TextView) v.findViewById(R.id.tv_writer);*/
             cardView = (CardView) v.findViewById(R.id.card_view);
+            addressView = (TextView) cardView.findViewById(R.id.title_address);
+//            imageView = (ImageView) imageView.findViewById(R.id.image);
+            ownerNameView = (TextView) cardView.findViewById(R.id.owner_name);
+            checkInView = (TextView) cardView.findViewById(R.id.check_in);
+            checkOutView = (TextView) cardView.findViewById(R.id.check_out);
         }
     }
 
