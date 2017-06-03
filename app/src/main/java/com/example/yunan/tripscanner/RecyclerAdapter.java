@@ -2,6 +2,7 @@ package com.example.yunan.tripscanner;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -46,7 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        HashMap<String,Object> temp;
+        final HashMap<String,Object> temp;
 
         temp = (HashMap<String,Object>)trip.getTrips().get(position);
         HashMap <String, Object> ownerTemp = (HashMap<String, Object>) temp.get("owner");
@@ -59,12 +60,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.checkInView.setText(temp.get("check_in").toString());
         holder.checkOutView.setText(temp.get("check_out").toString());
 
-        /*HashMap<String,String> noticeItem = noticeList.get(position);
-        holder.tv_writer.setText(noticeItem.get("writer")); //작성자
-        Log.e("[writer]", noticeItem.get("writer"));
-        holder.tv_title.setText(noticeItem.get("title")); //제목
-        holder.tv_content.setText(noticeItem.get("content")); //내용 일부
-        holder.tv_date.setText(noticeItem.get("regist_day")); //작성일*/
+        //card item selected
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, TripDetailActivity.class);
+                //Send selected item information to TripDetailActivity
+                intent.putExtra("Trip",temp);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
@@ -83,10 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         public ViewHolder(View v) {
             super(v);
-            /*tv_title = (TextView) v.findViewById(R.id.tv_title);
-            tv_date = (TextView) v.findViewById(R.id.tv_date);
-            tv_content = (TextView) v.findViewById(R.id.tv_content);
-            tv_writer = (TextView) v.findViewById(R.id.tv_writer);*/
+
             cardView = (CardView) v.findViewById(R.id.card_view);
             addressView = (TextView) cardView.findViewById(R.id.title_address);
             imageView = (ImageView) cardView.findViewById(R.id.image);

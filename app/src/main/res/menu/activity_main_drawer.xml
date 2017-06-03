@@ -20,9 +20,9 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="RegisterTestItem" />
         <item
-            android:id="@+id/nav_login"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_manage"
-            android:title="LoginTestMenu" />
+            android:title="Profile" />
         <item
             android:id="@+id/nav_test2"
             android:icon="@drawable/ic_menu_manage"
