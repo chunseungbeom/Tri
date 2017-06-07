@@ -115,8 +115,8 @@ public class BaseNaviActivity extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_test2) {
-            Intent intent = new Intent(this, ProfileActivity.class);
+        } else if (id == R.id.nav_make) {
+            Intent intent = new Intent(this, ScrollingMakeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
 

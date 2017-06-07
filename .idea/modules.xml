@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TripScanner.iml" filepath="$PROJECT_DIR$/TripScanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TripScanner-android.iml" filepath="$PROJECT_DIR$/TripScanner-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

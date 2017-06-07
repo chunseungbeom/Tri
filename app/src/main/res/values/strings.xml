@@ -36,6 +36,7 @@
     <string name="action_register_confirm_short">Sign up</string>
     <string name="error_password_confirm_mismatch">Password Confirm Mismatch</string>
     <string name="title_activity_register">Sign up</string>
+    <string name="title_activity_make">Make room</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="title_activity_scrolling_search">Search Trips</string>
 
@@ -64,6 +65,12 @@
     <string name="save">저장</string>
     <string name="pick_profile_picture">Pick Profile Picture</string>
     <string name="profile_photo_file_name">profile_photo.png</string>
+
+    <!--MAKE 관련 string-->
+    <string-array name="change_button_items">
+        <item>Open Camera</item>
+        <item>Select from Gallery</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

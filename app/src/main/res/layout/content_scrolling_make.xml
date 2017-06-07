@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.yunan.tripscanner.ScrollingMakeActivity"
+    tools:showIn="@layout/activity_scrolling_make">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
+        <TextView
+            android:id="@+id/textViewe_Photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이미지 업로드">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:focusableInTouchMode="true">
+
+            <Button
+                android:id="@+id/button_Change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:textColor="#FFFFFF"
+                android:text="UPLOAD"
+                >
+            </Button>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_Explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="동행설명"
+            android:layout_below="@+id/imageView_Profile_Photo">
+        </TextView>
+
+        <EditText
+            android:id="@+id/editText_Explain_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_explain_hint"
+            android:layout_margin="5dp"
+            android:hint="Wirte about your trip"
+            android:inputType="textAutoComplete"
+            android:layout_weight="7.35">
+
+        </EditText>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button_Save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:textColor="#FFFFFF"
+                android:text="@string/save">
+            </Button>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</android.support.v4.widget.NestedScrollView>

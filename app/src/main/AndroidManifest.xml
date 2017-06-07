@@ -25,7 +25,9 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -48,6 +50,15 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_make"
+            android:parentActivityName=".BaseNaviActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.yunan.tripscanner.MainActivity" />
+        </activity>
+        <activity
             android:name=".ScrollingSearchActivity"
             android:label="@string/title_activity_scrolling_search"
             android:parentActivityName=".BaseNaviActivity"
@@ -62,7 +73,7 @@
             android:value="AIzaSyCR1_QfP6YWOPi2K63hb0i0CKxzrIHCG2Y" />
 
         <activity
-            android:name=".IntroActivity"
+            android:name=".ScrollingMakeActivity"
             android:label="@string/title_activity_intro"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
